@@ -1,4 +1,5 @@
 import style from '@edtr-io/mathquill/build/mathquill.css'
+// import MathField from './MathField'
 
 export function addStyles() {
   if (document.getElementById('react-mathquill-styles') == null) {
@@ -10,8 +11,10 @@ export function addStyles() {
     head.appendChild(styleTag)
   }
 }
+//
+// export const EditableMathField = require('./EditableMathField')
+// export const StaticMathField = require('./StaticMathField')
+export const MathField = require('./MathField').default
 
-export const EditableMathField = require('./EditableMathField')
-export const StaticMathField = require('./StaticMathField')
-
-// export defaul{ EditableMathField, StaticMathField }
+// export defaul{ EditableMathField, StaticMathField }\
+export default MathField
