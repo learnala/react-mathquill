@@ -2,27 +2,22 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { MathQuill } from './mathquill-loader'
 
-class EditableMathField extends React.Component {
-  constructor(props) {
-    super(props)
+const EditableMathField = props => {
+  const { latex, onChange, config, mathquillDidMount, ...otherProps } = props
+  let element = null
+  let mathField = null
+  let ignoreEditEvents = 4
 
-    this.element = null
-    this.mathField = null
-
-    // MathJax apparently fire 4 edit events on startup.
-    this.ignoreEditEvents = 4
-  }
-
-  componentDidMount() {
+  React.useEffect(() => {
     let config = {
       restrictMismatchedBrackets: true,
       handlers: {},
     }
 
-    if (this.props.config) {
+    if (props.config) {
       config = {
         ...config,
-        ...this.props.config,
+        ...props.config,
       }
     }
 
@@ -33,52 +28,50 @@ class EditableMathField extends React.Component {
         configEditHandler()
       }
 
-      if (this.ignoreEditEvents > 0) {
-        this.ignoreEditEvents -= 1
+      if (ignoreEditEvents > 0) {
+        ignoreEditEvents -= 1
         return
       }
-      if (this.props.onChange) {
-        this.props.onChange(mathField)
+      if (onChange) {
+        onChange(mathField)
       }
     }
 
-    this.mathField = MathQuill.MathField(this.element, config)
-    this.mathField.latex(this.props.latex || '')
+    mathField = MathQuill.MathField(element, config)
+    mathField.latex(latex || '')
 
-    if (this.props.mathquillDidMount) {
-      this.props.mathquillDidMount(this.mathField)
+    if (mathquillDidMount) {
+      mathquillDidMount(mathField)
     }
-  }
+  },[])
 
   /**
    * Update the mathfield's latex value if the value passed as `props.latex` doesn't match
    */
-  componentDidUpdate(prevProps) {
-    const { mathField } = this
-    const { latex } = this.props
-    if (mathField && prevProps.latex !== latex && mathField.latex() !== latex) {
-      mathField.latex(latex)
-    }
-  }
 
-  render() {
-    const {
-      latex,
-      onChange,
-      config,
-      mathquillDidMount,
-      ...otherProps
-    } = this.props
+   React.useEffect(() => {
+     if (mathField && mathField.latex() !== latex) {
+       mathField.latex(latex)
+     }
+   },[mathField, latex])
+  // componentDidUpdate(prevProps) {
+  //   const { mathField } = this
+  //   const { latex } = this.props
+  //   if (mathField && prevProps.latex !== latex && mathField.latex() !== latex) {
+  //     mathField.latex(latex)
+  //   }
+  // }
 
-    return (
-      <span
-        {...otherProps}
-        ref={x => {
-          this.element = x
-        }}
-      />
-    )
-  }
+
+
+  return (
+    <span
+      {...otherProps}
+      ref={x => {
+        this.element = x
+      }}
+    />
+  )
 }
 
 EditableMathField.propTypes = {
