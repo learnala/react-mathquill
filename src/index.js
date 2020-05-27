@@ -11,10 +11,8 @@ export function addStyles() {
     head.appendChild(styleTag)
   }
 }
-//
-// export const EditableMathField = require('./EditableMathField')
-// export const StaticMathField = require('./StaticMathField')
-export const MathField = require('./MathField').default
 
-// export defaul{ EditableMathField, StaticMathField }\
-export default MathField
+export const MathQuill = require('exports-loader?window.MathQuill!imports-loader?window.jQuery=jquery!@edtr-io/mathquill/build/mathquill.js')
+
+export const EditableMathField = require('./EditableMathField').default
+export const StaticMathField = require('./StaticMathField').default
