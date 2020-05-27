@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { MathQuill } from './mathquill-loader'
 
-class MathQuillComponent extends React.Component {
+class EditableMathField extends React.Component {
   constructor(props) {
     super(props)
 
@@ -50,6 +50,17 @@ class MathQuillComponent extends React.Component {
     }
   }
 
+  /**
+   * Update the mathfield's latex value if the value passed as `props.latex` doesn't match
+   */
+  componentDidUpdate(prevProps) {
+    const { mathField } = this
+    const { latex } = this.props
+    if (mathField && prevProps.latex !== latex && mathField.latex() !== latex) {
+      mathField.latex(latex)
+    }
+  }
+
   render() {
     const {
       latex,
@@ -60,7 +71,7 @@ class MathQuillComponent extends React.Component {
     } = this.props
 
     return (
-      <div
+      <span
         {...otherProps}
         ref={x => {
           this.element = x
@@ -70,11 +81,11 @@ class MathQuillComponent extends React.Component {
   }
 }
 
-MathQuillComponent.propTypes = {
+EditableMathField.propTypes = {
   latex: PropTypes.string,
   onChange: PropTypes.func,
   config: PropTypes.object,
   mathquillDidMount: PropTypes.func,
 }
 
-export default MathQuillComponent
+export default EditableMathField
