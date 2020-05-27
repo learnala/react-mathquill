@@ -11,7 +11,9 @@ export function addStyles() {
   }
 }
 
-export const EditableMathField = require('./EditableMathField').default
-export const StaticMathField = require('./StaticMathField').default
+const EditableMathField = require('./EditableMathField').default
+const StaticMathField = require('./StaticMathField').default
+
+export { EditableMathField, StaticMathField }
 
 export default EditableMathField
