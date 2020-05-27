@@ -4,7 +4,7 @@
   "description": "React component wrapper for Mathquill",
   "main": "index.js",
   "typings": "index.d.ts",
-  "repository": "git@github.com:viktorstrate/react-mathquill.git",
+  "repository": "git@github.com:learnala/react-mathquill.git",
   "author": "viktorstrate <viktorstrate@gmail.com>",
   "license": "MIT",
   "private": false,
